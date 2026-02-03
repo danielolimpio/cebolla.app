@@ -3,41 +3,43 @@ import React from 'react';
 import { MOCK_POSTS, CATEGORIES } from '../constants';
 import { PostCardHero, PostCardGrid, PostCardList } from '../components/PostCards';
 import { SEOHead, JsonLd } from '../utils/seo';
-import { ArrowRight, Zap, TrendingUp, Mail } from 'lucide-react';
+import { ArrowRight, Zap, TrendingUp, Mail, ShieldCheck } from 'lucide-react';
 
 const Sidebar = () => (
-  <aside className="space-y-12">
-    <div className="bg-zinc-950 text-white p-8 rounded-2xl relative overflow-hidden">
+  <aside className="space-y-16">
+    <div className="bg-zinc-950 text-white p-10 rounded-[2.5rem] relative overflow-hidden border border-zinc-800 shadow-2xl">
         <div className="relative z-10">
-            <h3 className="text-2xl font-black mb-4 tracking-tighter uppercase italic">Assine a News</h3>
-            <p className="text-zinc-400 text-sm mb-6">Receba as ferramentas de privacidade mais quentes da semana.</p>
-            <input 
-                placeholder="E-mail" 
-                className="w-full bg-zinc-800 border-none rounded-lg px-4 py-3 mb-4 focus:ring-2 focus:ring-primary outline-none" 
-            />
-            <button className="w-full bg-primary py-3 rounded-lg font-black uppercase tracking-widest text-xs hover:opacity-90 transition-opacity">Participar</button>
+            <h3 className="text-3xl font-black mb-4 tracking-tighter uppercase italic leading-none">Stay <br /><span className="text-primary">Anonym</span></h3>
+            <p className="text-zinc-400 text-sm mb-8 font-medium leading-relaxed">As melhores ferramentas de privacidade em seu e-mail.</p>
+            <form className="space-y-4" onSubmit={(e) => e.preventDefault()}>
+                <input 
+                    placeholder="E-mail criptografado" 
+                    className="w-full bg-zinc-900 border border-zinc-800 rounded-2xl px-5 py-4 focus:ring-2 focus:ring-primary outline-none transition-all text-sm" 
+                />
+                <button className="w-full bg-primary py-4 rounded-2xl font-black uppercase tracking-widest text-[11px] hover:scale-[1.02] transition-transform shadow-xl shadow-primary/20">Acessar</button>
+            </form>
         </div>
-        <div className="absolute -bottom-8 -right-8 text-zinc-900 transform rotate-12 opacity-50">
-            <Mail size={160} />
+        <div className="absolute -bottom-10 -right-10 text-zinc-900/40 transform rotate-12">
+            <Mail size={200} />
         </div>
     </div>
 
     <div>
-      <h4 className="text-sm font-black uppercase tracking-[0.2em] mb-6 flex items-center gap-2">
+      <h3 className="text-[11px] font-black uppercase tracking-[0.3em] mb-10 flex items-center gap-3 text-zinc-400">
         <TrendingUp size={16} className="text-primary" /> Tendências
-      </h4>
-      <div className="space-y-6">
+      </h3>
+      <div className="space-y-10">
         {MOCK_POSTS.slice(0, 4).map(post => (
           <PostCardList key={post.id} post={post} />
         ))}
       </div>
     </div>
 
-    <div>
-      <h4 className="text-sm font-black uppercase tracking-[0.2em] mb-6">Categorias Populares</h4>
-      <div className="flex flex-wrap gap-2">
+    <div className="sticky top-28">
+      <h3 className="text-[11px] font-black uppercase tracking-[0.3em] mb-8 text-zinc-400">Tags Populares</h3>
+      <div className="flex flex-wrap gap-2.5">
         {CATEGORIES.map(cat => (
-          <button key={cat} className="bg-zinc-100 dark:bg-zinc-800 hover:bg-primary hover:text-white px-4 py-2 rounded-lg text-xs font-bold transition-all">
+          <button key={cat} className="bg-zinc-100 dark:bg-zinc-900 hover:bg-primary hover:text-white px-5 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all border border-zinc-200 dark:border-zinc-800">
             {cat}
           </button>
         ))}
@@ -52,102 +54,83 @@ const Home: React.FC = () => {
     "@type": "WebSite",
     "name": "Cebolla",
     "url": "https://cebolla.app",
-    "description": "O guia definitivo para segurança online e privacidade digital."
+    "description": "Notícias e tutoriais avançados sobre segurança digital e privacidade financeira."
   };
 
   return (
-    <main className="container mx-auto px-4 py-8">
+    <div className="container mx-auto px-6 py-10 lg:py-16">
       <SEOHead 
-        title="Home - Guia de Segurança Online" 
-        description="Notícias e tutoriais avançados sobre navegação anônima, criptografia e privacidade financeira."
+        title="Home - Guia de Segurança e Privacidade Digital" 
+        description="Aprenda sobre navegação anônima, criptografia e proteção de dados com o portal Cebolla."
       />
       <JsonLd data={websiteSchema} />
 
+      {/* Título Principal Invisível mas presente para SEO */}
+      <h1 className="sr-only">Cebolla - Segurança Online, Privacidade e Direitos Digitais</h1>
+
       {/* Trending Bar */}
-      <div className="flex items-center bg-zinc-100 dark:bg-zinc-900 rounded-lg p-2 mb-8 overflow-hidden">
-        <div className="bg-primary text-white text-[10px] font-black uppercase px-3 py-1 rounded-md flex items-center gap-1 whitespace-nowrap mr-4">
-            <Zap size={12} fill="currentColor" /> Urgente
+      <div className="flex items-center bg-zinc-50 dark:bg-zinc-900/50 border border-zinc-100 dark:border-zinc-800 rounded-2xl p-3 mb-12 overflow-hidden">
+        <div className="bg-primary text-white text-[9px] font-black uppercase px-3 py-1.5 rounded-lg flex items-center gap-2 whitespace-nowrap mr-5 shadow-lg shadow-primary/20">
+            <Zap size={14} fill="currentColor" /> Urgente
         </div>
-        <div className="text-xs font-bold truncate">
-            {MOCK_POSTS[0].title} — <span className="text-zinc-500 font-medium">Saiba como se proteger contra o novo exploit de Zero Day.</span>
+        <div className="text-xs font-bold truncate tracking-tight text-zinc-600 dark:text-zinc-300">
+            {MOCK_POSTS[0].title} — <span className="font-medium opacity-70">Novos protocolos de segurança são recomendados pela NIST para 2025.</span>
         </div>
       </div>
 
-      {/* Hero Grid */}
-      <section className="grid grid-cols-1 lg:grid-cols-12 gap-6 mb-16 lg:h-[600px]">
-        <div className="lg:col-span-8">
-          <PostCardHero post={MOCK_POSTS[0]} />
-        </div>
-        <div className="lg:col-span-4 grid grid-rows-2 gap-6">
-          <PostCardHero post={MOCK_POSTS[1]} />
-          <PostCardHero post={MOCK_POSTS[2]} />
-        </div>
-      </section>
-
-      {/* Editor's Pick Section */}
-      <section className="mb-20">
-        <div className="flex justify-between items-end mb-8 border-b-2 border-zinc-100 dark:border-zinc-800 pb-4">
-          <div>
-             <h2 className="text-4xl font-black italic uppercase tracking-tighter text-zinc-900 dark:text-white flex items-center gap-4">
-                Escolha do <span className="text-primary underline decoration-4 underline-offset-8">Editor</span>
-             </h2>
+      {/* Hero Grid Section */}
+      <section className="mb-24">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:h-[650px]">
+          <div className="lg:col-span-8">
+            <PostCardHero post={MOCK_POSTS[0]} priority={true} />
           </div>
-          <button className="text-xs font-black uppercase tracking-widest text-zinc-400 hover:text-primary transition-colors flex items-center gap-1">
-            Ver Todos <ArrowRight size={14} />
-          </button>
-        </div>
-        
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {MOCK_POSTS.slice(0, 4).map(post => (
-             <PostCardGrid key={post.id} post={post} />
-          ))}
+          <div className="lg:col-span-4 grid grid-rows-2 gap-8">
+            <PostCardHero post={MOCK_POSTS[1]} />
+            {/* Fix: removed redundant 'post=' and fixed syntax error on line 87 */}
+            <PostCardHero post={MOCK_POSTS[2]} />
+          </div>
         </div>
       </section>
 
-      {/* Main Content with Sidebar */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
-        <div className="lg:col-span-8 space-y-16">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-16">
+        <div className="lg:col-span-8 space-y-24">
           
           <section>
-            <div className="flex items-center gap-4 mb-8">
-                <h2 className="text-2xl font-black uppercase italic tracking-tighter">Geral</h2>
-                <div className="h-px bg-zinc-200 dark:bg-zinc-800 flex-grow" />
+            <div className="flex items-end justify-between mb-12 border-b border-zinc-100 dark:border-zinc-900 pb-6">
+                <h2 className="text-3xl lg:text-4xl font-black uppercase italic tracking-tighter flex items-center gap-4 dark:text-zinc-100 leading-none">
+                    <ShieldCheck className="text-primary" size={38} /> Radar <span className="text-primary">Geral</span>
+                </h2>
+                <button className="text-[11px] font-black uppercase tracking-[0.2em] text-zinc-400 hover:text-primary transition-colors flex items-center gap-2 group">
+                    Explorar Todos <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
+                </button>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-16">
                 {MOCK_POSTS.map(post => (
-                    <div key={post.id} className="pb-8 border-b border-zinc-100 dark:border-zinc-800 last:border-0">
-                        <PostCardGrid post={post} />
-                    </div>
+                    <PostCardGrid key={post.id} post={post} />
                 ))}
             </div>
           </section>
 
-          {/* Featured Video Section Mockup */}
-          <section className="bg-zinc-900 text-white rounded-3xl p-10 overflow-hidden relative">
-            <div className="relative z-10 flex flex-col md:flex-row gap-10 items-center">
-                <div className="md:w-1/2">
-                    <span className="text-primary text-xs font-black uppercase tracking-[0.3em] mb-4 block">Tutorial em Vídeo</span>
-                    <h2 className="text-4xl font-black mb-6 leading-tight">Configurando seu Firewall Cebolla de Hardware</h2>
-                    <p className="text-zinc-400 mb-8 font-medium">Um guia passo a passo para criar sua própria rede perimetral segura com hardware de baixo custo e código aberto.</p>
-                    <button className="bg-white text-zinc-900 px-8 py-4 rounded-full font-black text-xs uppercase tracking-widest hover:bg-primary hover:text-white transition-all">Assistir Agora</button>
-                </div>
-                <div className="md:w-1/2 aspect-video bg-zinc-800 rounded-2xl flex items-center justify-center relative overflow-hidden group cursor-pointer">
-                    <img src="https://picsum.photos/seed/video/800/450" className="absolute inset-0 w-full h-full object-cover opacity-50 group-hover:scale-110 transition-transform duration-700" />
-                    <div className="w-20 h-20 bg-primary rounded-full flex items-center justify-center text-white relative z-10 animate-pulse">
-                        <svg className="w-8 h-8 fill-current" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-                    </div>
-                </div>
+          {/* Banner de Engajamento Otimizado */}
+          <section className="bg-primary text-white rounded-[3rem] p-12 lg:p-20 relative overflow-hidden group shadow-2xl shadow-primary/30">
+            <div className="relative z-10 max-w-2xl">
+                <span className="text-[11px] font-black uppercase tracking-[0.5em] mb-6 block opacity-80 italic">Conteúdo Premium</span>
+                <h2 className="text-4xl lg:text-7xl font-black mb-10 leading-[1] tracking-tighter italic uppercase">Masterclass: Autodefesa Digital Completa.</h2>
+                <p className="text-white/80 text-lg mb-12 font-medium leading-relaxed max-w-lg">Um treinamento de 4 horas sobre como proteger sua família e ativos digitais de ameaças sofisticadas.</p>
+                <button className="bg-white text-primary px-10 py-5 rounded-2xl font-black text-[11px] uppercase tracking-widest hover:scale-105 transition-transform shadow-xl">Inscrever-se Agora</button>
+            </div>
+            <div className="absolute top-1/2 right-0 -translate-y-1/2 opacity-10 rotate-12 translate-x-1/4 pointer-events-none group-hover:rotate-6 transition-transform duration-1000 scale-125">
+                <ShieldCheck size={500} />
             </div>
           </section>
 
         </div>
 
-        {/* Sidebar */}
         <div className="lg:col-span-4">
           <Sidebar />
         </div>
       </div>
-    </main>
+    </div>
   );
 };
 

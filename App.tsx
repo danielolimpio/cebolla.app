@@ -1,14 +1,13 @@
-
-import React from 'react';
-import { HashRouter, Routes, Route, useLocation } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import { Header, Footer } from './components/Layout';
 import Home from './pages/Home';
 import Article from './pages/Article';
 
-// Simple Scroll to Top wrapper
+// Helper para garantir que o scroll volte ao topo em cada mudança de rota
 const ScrollToTop = () => {
   const { pathname } = useLocation();
-  React.useEffect(() => {
+  useEffect(() => {
     window.scrollTo(0, 0);
   }, [pathname]);
   return null;
@@ -16,21 +15,22 @@ const ScrollToTop = () => {
 
 const App: React.FC = () => {
   return (
-    <HashRouter>
+    <BrowserRouter>
       <ScrollToTop />
       <div className="flex flex-col min-h-screen">
         <Header />
-        <div className="flex-grow">
+        <main id="main-content" className="flex-grow">
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/article/:slug" element={<Article />} />
-            <Route path="/category/:cat" element={<Home />} /> {/* Mock category as home for now */}
+            <Route path="/artigo/:slug" element={<Article />} />
+            <Route path="/categoria/:cat" element={<Home />} />
+            {/* Fallback para evitar 404s e manter o usuário no site */}
             <Route path="*" element={<Home />} />
           </Routes>
-        </div>
+        </main>
         <Footer />
       </div>
-    </HashRouter>
+    </BrowserRouter>
   );
 };
 

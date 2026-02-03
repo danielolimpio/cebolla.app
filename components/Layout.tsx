@@ -1,20 +1,18 @@
-
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { 
-  Menu, X, Search, Moon, Sun, Shield, Lock, Ghost, CreditCard, 
-  FileText, Facebook, Twitter, Instagram, Linkedin, ChevronRight
+  Menu, X, Moon, Sun, Shield, Facebook, Twitter, Instagram, Linkedin, ChevronRight
 } from 'lucide-react';
 import { CATEGORIES } from '../constants';
 
 const NavLinks = () => (
   <>
-    <Link to="/" className="hover:text-primary transition-colors font-semibold">Home</Link>
+    <Link to="/" className="hover:text-primary transition-colors font-black uppercase tracking-widest text-[11px]">Home</Link>
     {CATEGORIES.map(cat => (
       <Link 
         key={cat} 
-        to={`/category/${cat.toLowerCase().replace(/ /g, '-')}`} 
-        className="hover:text-primary transition-colors whitespace-nowrap"
+        to={`/categoria/${cat.toLowerCase().replace(/ /g, '-')}`} 
+        className="hover:text-primary transition-colors whitespace-nowrap font-black uppercase tracking-widest text-[11px]"
       >
         {cat}
       </Link>
@@ -24,11 +22,18 @@ const NavLinks = () => (
 
 export const Header: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [isDark, setIsDark] = useState(false);
+  const [isDark, setIsDark] = useState(true);
+  const location = useLocation();
+
+  useEffect(() => {
+    setIsOpen(false);
+  }, [location]);
 
   useEffect(() => {
     if (document.documentElement.classList.contains('dark')) {
         setIsDark(true);
+    } else {
+        setIsDark(false);
     }
   }, []);
 
@@ -38,44 +43,42 @@ export const Header: React.FC = () => {
   };
 
   return (
-    <header className="sticky top-0 z-50 bg-white/90 dark:bg-zinc-950/90 backdrop-blur-md border-b border-zinc-200 dark:border-zinc-800 transition-colors">
-      <div className="container mx-auto px-4">
-        {/* Top bar */}
-        <div className="flex justify-between items-center py-4">
-          <Link to="/" className="flex items-center gap-2 group">
-            <div className="bg-primary p-2 rounded-lg text-white group-hover:rotate-12 transition-transform">
-              <Shield size={28} />
+    <header className="sticky top-0 z-50 bg-white/95 dark:bg-zinc-950/95 backdrop-blur-md border-b border-zinc-200 dark:border-zinc-900 transition-colors">
+      <div className="container mx-auto px-6">
+        <div className="flex justify-between items-center py-5">
+          <Link to="/" className="flex items-center gap-3 group">
+            <div className="bg-primary p-2.5 rounded-xl text-white group-hover:rotate-12 transition-transform shadow-lg shadow-primary/20">
+              <Shield size={24} />
             </div>
-            <span className="text-3xl font-black tracking-tighter uppercase italic text-zinc-900 dark:text-white">Cebolla</span>
+            <span className="text-3xl font-black tracking-tighter uppercase italic text-zinc-950 dark:text-white">Cebolla</span>
           </Link>
 
-          <div className="hidden lg:flex items-center gap-6">
-            <nav className="flex items-center gap-6 text-sm uppercase tracking-wider font-bold">
+          <div className="hidden lg:flex items-center gap-8">
+            <nav className="flex items-center gap-8">
                <NavLinks />
             </nav>
             <div className="h-6 w-px bg-zinc-200 dark:bg-zinc-800 mx-2" />
-            <button onClick={toggleTheme} className="p-2 rounded-full hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors">
+            <button onClick={toggleTheme} className="p-2.5 rounded-xl hover:bg-zinc-100 dark:hover:bg-zinc-900 transition-colors text-zinc-500 dark:text-zinc-400">
               {isDark ? <Sun size={20} /> : <Moon size={20} />}
             </button>
-            <button className="bg-zinc-900 dark:bg-zinc-100 text-white dark:text-zinc-900 px-6 py-2 rounded-full font-bold text-sm hover:opacity-90 transition-opacity">
-              Assinar
+            <button className="bg-zinc-950 dark:bg-white text-white dark:text-zinc-950 px-7 py-3 rounded-xl font-black text-[11px] uppercase tracking-[0.2em] hover:opacity-90 transition-opacity">
+              Membro
             </button>
           </div>
 
-          <button className="lg:hidden p-2" onClick={() => setIsOpen(!isOpen)}>
-            {isOpen ? <X size={24} /> : <Menu size={24} />}
+          <button className="lg:hidden p-2 text-zinc-900 dark:text-white" onClick={() => setIsOpen(!isOpen)}>
+            {isOpen ? <X size={28} /> : <Menu size={28} />}
           </button>
         </div>
       </div>
 
-      {/* Mobile Menu */}
       {isOpen && (
-        <div className="lg:hidden bg-white dark:bg-zinc-950 border-t border-zinc-200 dark:border-zinc-800 absolute top-full left-0 w-full animate-in slide-in-from-top-4 duration-200">
-          <nav className="flex flex-col p-6 gap-4 font-bold text-lg">
+        <div className="lg:hidden bg-white dark:bg-zinc-950 border-t border-zinc-200 dark:border-zinc-900 absolute top-full left-0 w-full animate-in slide-in-from-top-4 duration-300">
+          <nav className="flex flex-col p-8 gap-6">
              <NavLinks />
-             <hr className="border-zinc-200 dark:border-zinc-800" />
-             <button onClick={toggleTheme} className="flex items-center gap-2 text-zinc-500">
-               {isDark ? <><Sun size={20} /> Modo Claro</> : <><Moon size={20} /> Modo Escuro</>}
+             <hr className="border-zinc-200 dark:border-zinc-900" />
+             <button onClick={toggleTheme} className="flex items-center gap-3 text-zinc-500 font-black uppercase text-xs tracking-widest">
+               {isDark ? <><Sun size={18} /> Modo Claro</> : <><Moon size={18} /> Modo Escuro</>}
              </button>
           </nav>
         </div>
@@ -85,66 +88,64 @@ export const Header: React.FC = () => {
 };
 
 export const Footer: React.FC = () => (
-  <footer className="bg-zinc-100 dark:bg-zinc-900 border-t border-zinc-200 dark:border-zinc-800 pt-16 pb-8 transition-colors">
-    <div className="container mx-auto px-4">
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
+  <footer className="bg-zinc-50 dark:bg-zinc-950 border-t border-zinc-200 dark:border-zinc-900 pt-20 pb-10 transition-colors">
+    <div className="container mx-auto px-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-16 mb-20">
         <div>
-           <Link to="/" className="flex items-center gap-2 mb-6">
-            <div className="bg-primary p-2 rounded-lg text-white">
-              <Shield size={24} />
+           <Link to="/" className="flex items-center gap-3 mb-8">
+            <div className="bg-primary p-2.5 rounded-xl text-white shadow-lg shadow-primary/20">
+              <Shield size={22} />
             </div>
-            <span className="text-2xl font-black tracking-tighter uppercase italic text-zinc-900 dark:text-white">Cebolla</span>
+            <span className="text-2xl font-black tracking-tighter uppercase italic text-zinc-950 dark:text-white">Cebolla</span>
           </Link>
-          <p className="text-zinc-500 dark:text-zinc-400 mb-6 leading-relaxed">
-            A Cebolla é a sua fonte número um para notícias e tutoriais sobre segurança digital, privacidade e soberania tecnológica.
+          <p className="text-zinc-500 dark:text-zinc-400 mb-8 leading-relaxed font-medium">
+            Segurança cibernética levada a sério. Proteja sua pegada digital com quem entende de privacidade absoluta.
           </p>
-          <div className="flex gap-4">
-            <Facebook size={20} className="hover:text-primary cursor-pointer transition-colors" />
-            <Twitter size={20} className="hover:text-primary cursor-pointer transition-colors" />
-            <Instagram size={20} className="hover:text-primary cursor-pointer transition-colors" />
-            <Linkedin size={20} className="hover:text-primary cursor-pointer transition-colors" />
+          <div className="flex gap-5">
+            {[Facebook, Twitter, Instagram, Linkedin].map((Icon, i) => (
+              <Icon key={i} size={20} className="text-zinc-400 hover:text-primary cursor-pointer transition-colors" />
+            ))}
           </div>
         </div>
         
         <div>
-          <h4 className="font-bold text-lg mb-6 uppercase tracking-widest text-primary">Categorias</h4>
-          <ul className="space-y-4 font-medium text-zinc-600 dark:text-zinc-400">
+          <h4 className="font-black text-xs mb-8 uppercase tracking-[0.3em] text-primary">Navegação</h4>
+          <ul className="space-y-4 font-black text-[11px] uppercase tracking-widest text-zinc-600 dark:text-zinc-400">
             {CATEGORIES.map(cat => (
-              <li key={cat}><Link to={`/category/${cat.toLowerCase().replace(/ /g, '-')}`} className="hover:text-primary transition-colors">{cat}</Link></li>
+              <li key={cat}><Link to={`/categoria/${cat.toLowerCase().replace(/ /g, '-')}`} className="hover:text-primary transition-colors">{cat}</Link></li>
             ))}
           </ul>
         </div>
 
         <div>
-          <h4 className="font-bold text-lg mb-6 uppercase tracking-widest text-primary">Links Úteis</h4>
-          <ul className="space-y-4 font-medium text-zinc-600 dark:text-zinc-400">
+          <h4 className="font-black text-xs mb-8 uppercase tracking-[0.3em] text-primary">Institucional</h4>
+          <ul className="space-y-4 font-black text-[11px] uppercase tracking-widest text-zinc-600 dark:text-zinc-400">
             <li><Link to="/sobre" className="hover:text-primary transition-colors">Sobre Nós</Link></li>
-            <li><Link to="/contato" className="hover:text-primary transition-colors">Fale Conosco</Link></li>
             <li><Link to="/privacidade" className="hover:text-primary transition-colors">Privacidade</Link></li>
-            <li><Link to="/termos" className="hover:text-primary transition-colors">Termos de Uso</Link></li>
+            <li><Link to="/termos" className="hover:text-primary transition-colors">Termos</Link></li>
+            <li><Link to="/contato" className="hover:text-primary transition-colors">Contato</Link></li>
           </ul>
         </div>
 
         <div>
-          <h4 className="font-bold text-lg mb-6 uppercase tracking-widest text-primary">Newsletter</h4>
-          <p className="text-zinc-500 dark:text-zinc-400 mb-4 text-sm">Receba alertas de segurança semanalmente no seu e-mail.</p>
-          <form className="space-y-3">
+          <h4 className="font-black text-xs mb-8 uppercase tracking-[0.3em] text-primary">Radar</h4>
+          <p className="text-zinc-500 dark:text-zinc-400 mb-6 text-sm font-medium">Inscreva-se para alertas de Zero-Day e exploits críticos.</p>
+          <form className="space-y-3" onSubmit={(e) => e.preventDefault()}>
             <input 
               type="email" 
-              placeholder="seu@email.com" 
-              className="w-full bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary transition-all"
+              placeholder="seu@e-mail.com" 
+              className="w-full bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 px-5 py-3.5 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary transition-all text-sm"
             />
-            <button className="w-full bg-primary text-white py-3 rounded-lg font-bold hover:bg-red-600 transition-colors uppercase tracking-widest text-xs">Inscrever-se</button>
+            <button className="w-full bg-primary text-white py-3.5 rounded-xl font-black text-[11px] uppercase tracking-widest hover:brightness-110 transition-all shadow-lg shadow-primary/20">Inscrever</button>
           </form>
         </div>
       </div>
       
-      <div className="border-t border-zinc-200 dark:border-zinc-800 pt-8 flex flex-col md:flex-row justify-between items-center text-sm text-zinc-500 font-medium">
-        <p>© 2024 Cebolla.app. Todos os direitos reservados.</p>
-        <div className="flex gap-6 mt-4 md:mt-0">
-          <span className="cursor-pointer hover:text-primary">Sitemap</span>
-          <span className="cursor-pointer hover:text-primary">Publicidade</span>
-          <span className="cursor-pointer hover:text-primary">Cookies</span>
+      <div className="border-t border-zinc-200 dark:border-zinc-900 pt-10 flex flex-col md:flex-row justify-between items-center text-[10px] font-black uppercase tracking-[0.2em] text-zinc-500">
+        <p>© 2025 Cebolla.app — Todos os direitos reservados.</p>
+        <div className="flex gap-8 mt-6 md:mt-0">
+          <span className="cursor-pointer hover:text-primary transition-colors">Sitemap</span>
+          <span className="cursor-pointer hover:text-primary transition-colors">Cookies</span>
         </div>
       </div>
     </div>
@@ -152,15 +153,15 @@ export const Footer: React.FC = () => (
 );
 
 export const Breadcrumbs: React.FC<{ items: { label: string; path: string }[] }> = ({ items }) => (
-  <nav aria-label="breadcrumb" className="container mx-auto px-4 py-6">
-    <ol className="flex items-center gap-2 text-sm font-medium text-zinc-500 overflow-x-auto whitespace-nowrap scrollbar-hide">
+  <nav aria-label="breadcrumb" className="container mx-auto px-6 py-8">
+    <ol className="flex items-center gap-3 text-[10px] font-black uppercase tracking-widest text-zinc-400 overflow-x-auto whitespace-nowrap scrollbar-hide">
       <li>
-        <Link to="/" className="hover:text-primary">Home</Link>
+        <Link to="/" className="hover:text-primary transition-colors">Home</Link>
       </li>
       {items.map((item, index) => (
         <React.Fragment key={item.path}>
-          <ChevronRight size={14} className="flex-shrink-0" />
-          <li className={index === items.length - 1 ? "text-zinc-900 dark:text-white font-bold" : "hover:text-primary"}>
+          <ChevronRight size={14} className="flex-shrink-0 text-zinc-600" />
+          <li className={index === items.length - 1 ? "text-primary italic" : "hover:text-primary transition-colors"}>
             <Link to={item.path}>{item.label}</Link>
           </li>
         </React.Fragment>

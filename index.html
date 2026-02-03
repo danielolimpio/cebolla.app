@@ -1,12 +1,21 @@
-
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-BR" class="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- SEO Básico e Meta Tags Críticas -->
     <title>Cebolla - Segurança Online e Privacidade Digital</title>
-    <meta name="description" content="O guia definitivo para navegação anônima, comunicação segura e proteção de dados.">
+    <meta name="description" content="O guia definitivo para navegação anônima, comunicação segura e proteção de dados no ambiente digital moderno.">
+    <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://cebolla.app" />
+    
+    <!-- Preconnect para Fontes e Scripts Externos -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://esm.sh">
+
+    <!-- Tailwind e Configuração -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
       tailwind.config = {
@@ -15,36 +24,71 @@
           extend: {
             colors: {
               primary: '#ff4d4d',
-              accent: '#f59e0b',
+              dark: '#09090b',
+              zinc: {
+                950: '#09090b'
+              }
             },
             fontFamily: {
+              sans: ['Inter', 'system-ui', 'sans-serif'],
               serif: ['Georgia', 'serif'],
-              sans: ['Inter', 'sans-serif'],
             }
           }
         }
       }
     </script>
+
     <style>
-      @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap');
-      body { font-family: 'Inter', sans-serif; transition: background-color 0.3s, color 0.3s; }
+      @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&display=swap');
+      
+      /* Prevenção de Tela em Branco e FOUC (Flash of Unstyled Content) */
+      :root { color-scheme: dark; }
+      body { 
+        font-family: 'Inter', sans-serif; 
+        margin: 0; 
+        background-color: #09090b; /* Fundo dark padrão imediato */
+        color: #f4f4f5;
+        min-height: 100vh;
+      }
+      
+      /* Skeleton Placeholder para evitar layout shift */
+      #root:empty {
+        display: flex;
+        flex-direction: column;
+      }
+      #root:empty::before {
+        content: "";
+        height: 72px;
+        width: 100%;
+        background: #18181b;
+        border-bottom: 1px solid #27272a;
+      }
+
       .line-clamp-2 { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
-      .line-clamp-3 { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+      .img-skeleton { background: #18181b; position: relative; overflow: hidden; }
+      .img-skeleton::after {
+        content: ""; position: absolute; inset: 0;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.03), transparent);
+        animation: loading 1.5s infinite;
+      }
+      @keyframes loading { 0% { transform: translateX(-100%); } 100% { transform: translateX(100%); } }
     </style>
+
 <script type="importmap">
 {
   "imports": {
-    "react": "https://esm.sh/react@^19.2.4",
-    "react-dom/": "https://esm.sh/react-dom@^19.2.4/",
-    "react/": "https://esm.sh/react@^19.2.4/",
-    "react-router-dom": "https://esm.sh/react-router-dom@^7.13.0",
-    "lucide-react": "https://esm.sh/lucide-react@^0.563.0",
-    "@google/genai": "https://esm.sh/@google/genai@^1.39.0"
+    "react": "https://esm.sh/react@19.0.0",
+    "react-dom": "https://esm.sh/react-dom@19.0.0",
+    "react-dom/": "https://esm.sh/react-dom@19.0.0/",
+    "react/": "https://esm.sh/react@19.0.0/",
+    "react-router-dom": "https://esm.sh/react-router-dom@7.1.0",
+    "lucide-react": "https://esm.sh/lucide-react@0.474.0",
+    "@google/genai": "https://esm.sh/@google/genai@1.3.0"
   }
 }
 </script>
 </head>
-<body class="bg-white text-gray-900 dark:bg-zinc-950 dark:text-zinc-100 transition-colors">
+<body class="bg-white text-zinc-900 dark:bg-zinc-950 dark:text-zinc-100 transition-colors duration-300">
     <div id="root"></div>
 </body>
 </html>

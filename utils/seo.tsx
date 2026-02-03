@@ -1,4 +1,3 @@
-
 import React, { useEffect } from 'react';
 import { SeoMetadata } from '../types';
 import { DOMAIN } from '../constants';
@@ -8,57 +7,45 @@ export const SEOHead: React.FC<SeoMetadata> = ({
   description, 
   canonical, 
   ogType = 'website', 
-  ogImage = 'https://picsum.photos/seed/cebolla/1200/630' 
+  ogImage = 'https://cebolla.app/og-default.jpg' 
 }) => {
   useEffect(() => {
-    document.title = `${title} | Cebolla`;
+    const fullTitle = `${title} | Cebolla`;
+    document.title = fullTitle;
     
-    // Update Meta Description
-    let metaDesc = document.querySelector('meta[name="description"]');
-    if (!metaDesc) {
-      metaDesc = document.createElement('meta');
-      metaDesc.setAttribute('name', 'description');
-      document.head.appendChild(metaDesc);
-    }
-    metaDesc.setAttribute('content', description);
+    const setMeta = (attr: string, value: string, content: string, isProperty = false) => {
+      let el = document.querySelector(isProperty ? `meta[property="${value}"]` : `meta[name="${value}"]`);
+      if (!el) {
+        el = document.createElement('meta');
+        el.setAttribute(isProperty ? 'property' : 'name', value);
+        document.head.appendChild(el);
+      }
+      el.setAttribute('content', content);
+    };
 
-    // Update Canonical
+    setMeta('name', 'description', description);
+    setMeta('property', 'og:title', fullTitle, true);
+    setMeta('property', 'og:description', description, true);
+    setMeta('property', 'og:type', ogType, true);
+    setMeta('property', 'og:image', ogImage, true);
+    setMeta('property', 'og:url', window.location.href, true);
+    setMeta('name', 'twitter:card', 'summary_large_image');
+    setMeta('name', 'twitter:title', fullTitle);
+    setMeta('name', 'twitter:description', description);
+    setMeta('name', 'twitter:image', ogImage);
+
     let linkCanonical = document.querySelector('link[rel="canonical"]');
     if (!linkCanonical) {
       linkCanonical = document.createElement('link');
       linkCanonical.setAttribute('rel', 'canonical');
       document.head.appendChild(linkCanonical);
     }
-    linkCanonical.setAttribute('href', canonical || DOMAIN);
-
-    // Open Graph
-    const setOgTag = (property: string, content: string) => {
-        let tag = document.querySelector(`meta[property="${property}"]`);
-        if (!tag) {
-            tag = document.createElement('meta');
-            tag.setAttribute('property', property);
-            document.head.appendChild(tag);
-        }
-        tag.setAttribute('content', content);
-    };
-
-    setOgTag('og:title', title);
-    setOgTag('og:description', description);
-    setOgTag('og:type', ogType);
-    setOgTag('og:url', window.location.href);
-    setOgTag('og:image', ogImage);
-    setOgTag('og:site_name', 'Cebolla');
-    
+    linkCanonical.setAttribute('href', canonical || window.location.href);
   }, [title, description, canonical, ogType, ogImage]);
 
   return null;
 };
 
-export const JsonLd: React.FC<{ data: any }> = ({ data }) => {
-  return (
-    <script
-      type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }}
-    />
-  );
-};
+export const JsonLd: React.FC<{ data: any }> = ({ data }) => (
+  <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }} />
+);
