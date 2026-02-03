@@ -1,0 +1,7 @@
+{
+  "name": "Cebolla - Online Security Blog",
+  "description": "A high-performance, SEO-optimized blog focused on online security, anonymity, and digital rights, built with React and Tailwind CSS.",
+  "requestFramePermissions": [
+    "camera"
+  ]
+}
